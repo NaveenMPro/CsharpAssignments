@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace VitalWatch
+{
+    public class HeartRateManagement
+    {
+        public event Action Alarm;
+        public int HR { get; set; }
+
+        public void HeartRateSensor()
+        {
+            Random num = new Random();
+            HR = num.Next(80, 140);
+        }
+
+        public void Display()
+        {
+            Console.WriteLine($"Heart Rate : {HR}");
+            if (HR<80 || HR > 140)
+            {
+                this.NotifyObserver();
+            }
+        }
+
+        private void NotifyObserver()
+        {
+            if (Alarm != null)
+            {
+                Alarm.Invoke(); 
+            }
+        }
+    }
+
+    public class Vibrator
+    {
+        public void Vibrate()
+        {
+            Console.WriteLine("Vibrate");
+        }
+    }
+
+    public class Beeper
+    {
+        public void Beep()
+        {
+            Console.WriteLine("Beep");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            HeartRateManagement _app = new HeartRateManagement();
+
+            Vibrator _vibrator = new Vibrator();
+            Beeper _beep = new Beeper();
+
+            _app.Alarm += _vibrator.Vibrate;
+            _app.Alarm += _beep.BeepSound;
+
+            while (true)
+            {
+                _app.HeartRateSensor();
+                _app.Display();
+                System.Threading.Thread.Sleep(1000);
+            }
+        }
+    }
+}
