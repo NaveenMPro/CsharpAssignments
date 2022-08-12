@@ -17,10 +17,10 @@ namespace ValidatorApp
 
             foreach (var validationRes in result)
             {
-                //foreach (var rule in result.ValidationRule)
-                //{
-                //    Console.WriteLine($"{rule.ValidationType}: {rule.Status}: {rule.ErrorMessage}");
-                //}
+                foreach (var rule in result.ValidationRule)
+                {
+                    Console.WriteLine($"{rule.ValidationType}: {rule.Status}: {rule.ErrorMessage}");
+                }
             }
             Console.Read();
         }
